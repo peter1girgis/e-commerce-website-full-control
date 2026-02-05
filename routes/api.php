@@ -59,6 +59,7 @@ Route::group(['prefix' => 'orders', 'middleware' => 'auth:sanctum'], function ()
     Route::get('/{order_id}/details', [OrderDetailController::class, 'show']);
 });
 
+// whereNumber('order_id')
 
 Route::get('/products/{slug}', [ProductDetailController::class, 'show']);
 Route::post('/products/{id}/add-to-cart', [ProductDetailController::class, 'addToCart']);

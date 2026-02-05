@@ -13,7 +13,7 @@ class SuccessController extends Controller
     public function success(Request $request)
     {
         $user = $request->user();
-        $sessionId = $request->query('session_id'); // ?session_id=xxxx
+        $sessionId = $request->query('session_id');
 
         $latestOrder = Order::with('address')
             ->where('user_id', $user->id)
@@ -26,9 +26,9 @@ class SuccessController extends Controller
             ], 404);
         }
 
-        // تحقق من Stripe لو في session_id
+
         if ($sessionId) {
-            Stripe::setApiKey(env('STRIPE_SECRET')); // ✅ خلي بالك من اسم المتغير
+            Stripe::setApiKey(env('STRIPE_SECRET')); 
 
             $sessionInfo = Session::retrieve($sessionId);
 

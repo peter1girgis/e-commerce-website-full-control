@@ -21,7 +21,7 @@ class LanguageSwitcher extends Component
         Session::put('locale', $newLocale);
         $this->locale = $newLocale;
 
-        // عمل refresh للصفحة عشان كل الترجمة تتحدث
+        
         return redirect(request()->header('Referer'));
     }
 

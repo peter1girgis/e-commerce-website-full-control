@@ -10,8 +10,8 @@ class OrderController extends Controller
 {
     public function index(Request $request)
     {
-        // نجيب الطلبات بتاعت اليوزر الحالي
-        $orders = Order::with('address') // لو عندك علاقة address
+
+        $orders = Order::with('address') 
             ->where('user_id', $request->user()->id)
             ->latest()
             ->paginate(10);

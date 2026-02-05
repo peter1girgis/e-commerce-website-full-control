@@ -14,13 +14,13 @@ class ProductDetailController extends Controller
 {
     public function show(Request $request, $slug)
     {
-        // نجيب المنتج بالـ slug
+
         $product = Product::where('slug', $slug)->firstOrFail();
 
-        // الكمية الافتراضية
+
         $quantity = 1;
 
-        // لو المنتج موجود بالفعل في الكارت نجيب الكمية من هناك
+       
         $item = CartManagement::getItemFromCartIfExist($product->id);
         if ($item !== null) {
             $quantity = $item;
@@ -35,7 +35,7 @@ class ProductDetailController extends Controller
 
     public function addToCart(Request $request, $id)
         {
-            if (!auth()->user()) {
+            if (!auth()->check()) {
                 return response()->json(['status' => 'error', 'message' => 'Unauthorized'], 401);
             }
 

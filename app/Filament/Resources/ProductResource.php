@@ -103,9 +103,12 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('brand.name')
                     ->numeric()
                     ->sortable(),
-
                 Tables\Columns\TextColumn::make('slug')
                     ->searchable(),
+                    Tables\Columns\ImageColumn::make('images')
+                    ->label('Images')
+                    ->circular()
+                    ->getStateUsing(fn($record) => is_array($record->images) ? $record->images : []),
                 Tables\Columns\TextColumn::make('price')
                     ->money()
                     ->sortable(),
@@ -119,6 +122,7 @@ class ProductResource extends Resource
                     }),
                 Tables\Columns\IconColumn::make('is_featured')
                     ->boolean()
+                    ->toggleable(isToggledHiddenByDefault:true)
                     ->action(function($record,$column){
                         $name = $column->getName();
                         $record->update([
@@ -135,6 +139,7 @@ class ProductResource extends Resource
                     }),
                 Tables\Columns\IconColumn::make('on_sale')
                     ->boolean()
+                    ->toggleable(isToggledHiddenByDefault:true)
                     ->action(function($record,$column){
                         $name = $column->getName();
                         $record->update([

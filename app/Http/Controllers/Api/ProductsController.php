@@ -14,42 +14,49 @@ class ProductsController extends Controller
     {
         $query = Product::query()->where('is_active', 1);
 
-        // ✅ فلترة بالـ categories
+
         if ($request->filled('categories')) {
             $categories = explode(',', $request->categories);
             $query->whereIn('category_id', $categories);
         }
 
-        // ✅ فلترة بالـ brands
+
         if ($request->filled('brands')) {
             $brands = explode(',', $request->brands);
             $query->whereIn('brand_id', $brands);
         }
 
-        // ✅ featured
+
         if ($request->boolean('is_featured')) {
             $query->where('is_featured', 1);
         }
 
-        // ✅ on_sale
         if ($request->boolean('on_sale')) {
             $query->where('on_sale', 1);
         }
 
-        // ✅ price_range
+
         if ($request->filled('price_range')) {
             $query->whereBetween('price', [0, $request->price_range]);
         }
 
-        // ✅ ترتيب
+
         if ($request->sort === 'price') {
             $query->orderBy('price');
         } else {
             $query->latest();
         }
 
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('description', 'like', '%' . $search . '%');
+            });
+        }
+
         // ✅ Pagination
-        $products = $query->paginate(12); // نفس paginate() اللي عندك
+        $products = $query->paginate(12);
 
         return response()->json([
             'filters' => [

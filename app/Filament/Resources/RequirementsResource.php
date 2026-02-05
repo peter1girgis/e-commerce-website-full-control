@@ -18,7 +18,8 @@ class RequirementsResource extends Resource
     protected static ?string $model = Requirements::class;
     protected static ?string $navigationGroup = 'Gateways';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-list-bullet';
+    protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {
@@ -100,7 +101,7 @@ class RequirementsResource extends Resource
     // it returns 'danger'.
     public static function getNavigationBadgeColor(): string|array|null
     {
-        return static::getModel()::count() > 10 ? 'success' : 'danger';
+        return static::getModel()::count() > 10 ? 'danger':'success';
     }
 
     public static function getRelations(): array

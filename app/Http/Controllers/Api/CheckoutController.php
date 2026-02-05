@@ -144,7 +144,7 @@ class CheckoutController extends Controller
             ]);
         }
 
-        // ممكن تبعت إيميل تأكيد
+        
         // Mail::to($request->user()->email)->send(new OrderPlaced($order));
 
         return response()->json([

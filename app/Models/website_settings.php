@@ -15,6 +15,12 @@ class website_settings extends Model
         'home_ads_count',
         'contact_email',
         'contact_phone',
+        'whatsApp',
         'footer_text',
+        'home_categories_count',
+        'twitter_link',
+        'facebook_link',
+        'home_brands_count',
+        'is_active',
     ];
 }

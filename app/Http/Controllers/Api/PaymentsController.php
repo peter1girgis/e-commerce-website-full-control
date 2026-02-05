@@ -15,15 +15,15 @@ class PaymentsController extends Controller
     public function store(Request $request, $payment_id, $orderId)
     {
         try {
-            // ✅ جلب الـ Order
+
             $order = Order::findOrFail($orderId);
 
-            // ✅ جلب الـ Payment Method بالـ requirements
+
             $paymentMethod = payment_methods::with(['requirements' => function ($q) {
                 $q->withPivot(['is_required', 'width', 'description']);
             }])->findOrFail($payment_id);
 
-            // ✅ بناء قواعد التحقق
+
             $rules = [];
             foreach ($paymentMethod->requirements as $req) {
                 $rule = [];
@@ -54,10 +54,9 @@ class PaymentsController extends Controller
                 $rules['inputs.' . $req->id] = implode('|', $rule);
             }
 
-            // ✅ تحقق من البيانات
+
             $validated = $request->validate($rules);
 
-            // ✅ تجهيز Markdown
             $markdown = "";
             foreach ($paymentMethod->requirements as $req) {
                 $input = $request->input("inputs.{$req->id}");
@@ -81,7 +80,7 @@ class PaymentsController extends Controller
                 }
             }
 
-            // ✅ إنشاء payment
+      
             $payment = payments::create([
                 'order_id'          => $order->id,
                 'payment_method_id' => $paymentMethod->id,

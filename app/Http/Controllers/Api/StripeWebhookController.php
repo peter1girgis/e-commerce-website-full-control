@@ -26,7 +26,7 @@ class StripeWebhookController extends Controller
             'cart_items' => 'required|array',
         ]);
 
-        $cartItems = $data['cart_items']; // جايه من الـ frontend
+        $cartItems = $data['cart_items'];
         $lineItems = [];
 
         foreach ($cartItems as $item) {
@@ -42,9 +42,9 @@ class StripeWebhookController extends Controller
             ];
         }
 
-        // إنشاء الطلب
+
         $order = new Order();
-        $order->user_id = auth('sanctum')->id(); // لو مستخدم مسجل
+        $order->user_id = auth('sanctum')->id();
         $order->grand_total = collect($cartItems)->sum(fn($i) => $i['unit_amount'] * $i['quantity']);
         $order->payment_method = $data['payment_method'];
         $order->payment_status = 'pending';
@@ -54,15 +54,14 @@ class StripeWebhookController extends Controller
         $order->shipping_method = 'none';
         $order->save();
 
-        // العنوان
+
         $address = new Addresses($data);
         $address->order_id = $order->id;
         $address->save();
 
-        // حفظ العناصر
         $order->items()->createMany($cartItems);
 
-        // لو Stripe
+   
         $redirectUrl = null;
         if ($data['payment_method'] === 'stripe') {
             Stripe::setApiKey(env('STIPE_SECRET'));

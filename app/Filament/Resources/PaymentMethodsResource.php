@@ -20,8 +20,9 @@ class PaymentMethodsResource extends Resource
 {
     protected static ?string $model = payment_methods::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-credit-card';
     protected static ?string $navigationGroup = 'Gateways';
+    protected static ?int $navigationSort = 1 ;
 
     public static function getPluralLabel(): string
 {
@@ -88,7 +89,7 @@ class PaymentMethodsResource extends Resource
     // it returns 'danger'.
     public static function getNavigationBadgeColor(): string|array|null
     {
-        return static::getModel()::count() > 10 ? 'success' : 'danger';
+        return static::getModel()::count() > 10 ? 'danger':'success';
     }
 
     public static function getPages(): array

@@ -16,10 +16,16 @@ return new class extends Migration
             $table->string('main_logo')->nullable(); // صورة اللوجو
             $table->integer('products_per_page')->default(12);
             $table->integer('home_products_count')->default(8);
+            $table->integer('home_brands_count')->default(8);
+            $table->integer('home_categories_count')->default(8);
             $table->integer('home_ads_count')->default(3);
             $table->string('contact_email')->nullable();
+            $table->string('whatsApp')->nullable();
+            $table->string('facebook_link')->nullable();
+            $table->string('twitter_link')->nullable();
             $table->string('contact_phone')->nullable();
             $table->text('footer_text')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
 
