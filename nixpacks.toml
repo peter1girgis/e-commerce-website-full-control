@@ -1,0 +1,18 @@
+# إجبار السيرفر على استخدام نسخة PHP 8.2 وتثبيت الإضافات الناقصة
+[variables]
+    PHP_EXTENSIONS = 'bcmath, intl, zip, pdo_mysql'
+    NIXPACKS_PHP_VERSION = '8.2'
+
+# تعديل أمر التثبيت لتجاهل كل القيود (النسخة والإضافات)
+[phases.install]
+    dependsOn = ['setup']
+    cmds = ['composer install --ignore-platform-reqs --no-interaction --optimize-autoloader']
+
+# تعديل أمر البناء لـ Vite/Livewire
+[phases.build]
+    dependsOn = ['install']
+    cmds = ['npm install && npm run build']
+
+# أمر التشغيل النهائي
+[start]
+    cmd = 'php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT'
