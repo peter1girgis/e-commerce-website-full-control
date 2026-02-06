@@ -15,6 +15,7 @@ use App\Livewire\PaymentPage;
 use App\Livewire\ProductDetailPage;
 use App\Livewire\ProductsPage;
 use App\Livewire\Success;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,7 +43,9 @@ Route::middleware('guest')->group(function (){
     Route::get('/forgot', ForgetPage::class)->name('password.request');
     Route::get('/resetpassword/{token}', ResetPasswordPage::class)->name('password.reset');
 });
-
+Route::get('/run-migrations', function () {
+    return Artisan::call('migrate', ["--force" => true]);
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('logout', function () {
